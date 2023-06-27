@@ -9,6 +9,7 @@ use Src\Agenda\User\Domain\Model\ValueObjects\Avatar;
 use Src\Agenda\User\Domain\Model\ValueObjects\Email;
 use Src\Agenda\User\Domain\Model\ValueObjects\LastName;
 use Src\Agenda\User\Domain\Model\ValueObjects\Name;
+use Src\Agenda\User\Domain\Model\ValueObjects\TypeUsersId;
 use Src\Agenda\User\Infrastructure\EloquentModels\UserEloquentModel;
 
 class UserMapper
@@ -31,20 +32,19 @@ class UserMapper
             id: $userEloquent->id,
             name: new Name($userEloquent->name),
             email: new Email($userEloquent->email),
-            last_name: new LastName($userEloquent->last_name)
+            last_name: new LastName($userEloquent->last_name),
+            type_users_id: new TypeUsersId($userEloquent->type_users_id)
         );
     }
 
     public static function fromAuth(Authenticatable $userEloquent): User
     {
-        $avatar = new Avatar(binary_data: null, filename: $userEloquent->avatar);
         return new User(
             id: $userEloquent->id,
             name: new Name($userEloquent->name),
             email: new Email($userEloquent->email),
-            avatar: $avatar,
-            is_admin: $userEloquent->is_admin,
-            is_active: $userEloquent->is_active
+            last_name: new LastName($userEloquent->last_name),
+            type_users_id: new TypeUsersId($userEloquent->type_users_id)
         );
     }
 

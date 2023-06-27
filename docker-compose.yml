@@ -2,7 +2,7 @@ version: '3.7'
 services:
   nginx:
     image: nginx:stable-alpine
-    container_name: nginx-app
+    container_name: nginx
     ports:
       - 8888:80
     volumes:
@@ -17,7 +17,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: php-app
+    container_name: php
     volumes:
       - .:/var/www/html
     ports:

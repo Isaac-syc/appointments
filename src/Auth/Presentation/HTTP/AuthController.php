@@ -64,7 +64,7 @@ class AuthController extends Controller
                 throw new ValidationException($validator);
             }
             $user = $this->auth->register($request->post());
-            return response()->json(['data' => ['user' => $user]]);
+            return response()->json();
         } catch (ValidationException $validationException) {
             return response()->json($validationException->errors(), Response::HTTP_BAD_REQUEST);
         }
@@ -77,7 +77,7 @@ class AuthController extends Controller
      */
     public function me(): JsonResponse
     {
-        return response()->json($this->auth->me()->toArray());
+        return response()->json(['data' => ['user' => $this->auth->me()->toArray()]]);
     }
 
     /**

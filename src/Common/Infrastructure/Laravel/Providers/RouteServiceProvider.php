@@ -40,6 +40,7 @@ class RouteServiceProvider extends ServiceProvider
                     require base_path('src/Auth/Presentation/HTTP/routes.php');
                     require base_path('src/Agenda/User/Presentation/HTTP/routes.php');
                     require base_path('src/Agenda/Company/Presentation/HTTP/routes.php');
+                    require base_path('src/Agenda/Business/Presentation/HTTP/routes.php');
                 });
         });
     }

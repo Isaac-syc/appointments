@@ -6,6 +6,6 @@ use Src\Agenda\Business\Presentation\HTTP\BusinessController;
 Route::group([
     'prefix' => 'business'
 ], function () {
-    Route::post('', [BusinessController::class, 'store']);
+    Route::post('/', [BusinessController::class, 'store']);
 
 });

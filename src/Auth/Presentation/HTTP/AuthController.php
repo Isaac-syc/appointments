@@ -64,7 +64,11 @@ class AuthController extends Controller
                 throw new ValidationException($validator);
             }
             $user = $this->auth->register($request->post());
-            return response()->json();
+            return response()->json([
+                "data" => [
+                    "user" => $user
+                ]
+            ],201);
         } catch (ValidationException $validationException) {
             return response()->json($validationException->errors(), Response::HTTP_BAD_REQUEST);
         }

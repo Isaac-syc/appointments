@@ -4,6 +4,7 @@ namespace Src\Agenda\Business\Presentation\HTTP;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Src\Agenda\Business\Application\Mappers\BusinessMapper;
 use Src\Agenda\User\Application\Mappers\UserMapper;
 use Src\Agenda\User\Application\UseCases\Commands\DestroyUserCommand;
 use Src\Agenda\User\Application\UseCases\Commands\StoreUserCommand;
@@ -19,9 +20,10 @@ class BusinessController extends Controller
 {
     public function store(Request $request): JsonResponse
     {
-        return"hola";
+
         try {
-            $userData = UserMapper::fromRequest($request);
+            $bussinessData = BusinessMapper::fromRequest($request, null, "wwww.img.com");
+            return response()->json($bussinessData, 200);
             $password = new Password($request->input('password'), $request->input('password_confirmation'));
             $user = (new StoreUserCommand($userData, $password))->execute();
             return response()->success($user->toArray(), Response::HTTP_CREATED);

@@ -13,6 +13,7 @@ use Src\Agenda\Business\Domain\Model\ValueObjects\Photo;
 use Src\Agenda\Business\Domain\Model\ValueObjects\StateId;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street1;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street2;
+use Src\Agenda\Business\Domain\Model\ValueObjects\UserId;
 use Src\Common\Domain\AggregateRoot;
 
 class Business extends AggregateRoot implements \JsonSerializable
@@ -30,7 +31,8 @@ class Business extends AggregateRoot implements \JsonSerializable
         public readonly Street1 $street1,
         public readonly Street2 $street2,
         public readonly Photo $photo,
-        public readonly bool $isActive
+        public readonly bool $isActive,
+        public readonly ?UserId $userId
     ) {}
 
     public function toArray(): array

@@ -16,10 +16,11 @@ use Src\Agenda\Business\Domain\Model\ValueObjects\Photo;
 use Src\Agenda\Business\Domain\Model\ValueObjects\StateId;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street1;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street2;
+use Src\Agenda\Business\Domain\Model\ValueObjects\UserId;
 
 class BusinessMapper
 {
-    public static function fromRequest(Request $request, ?int $business_id = null, ?string $photoUrl = null): Business
+    public static function fromRequest(Request $request, ?int $business_id = null, ?string $photoUrl = null, ?int $userId = null): Business
     {
         return new Business(
             id: $business_id,
@@ -35,6 +36,7 @@ class BusinessMapper
             street2: new Street2($request->string('street2')),
             photo: new Photo($photoUrl),
             isActive: $request->boolean('isActive', true),
+            userId: $userId,
         );
     }
 

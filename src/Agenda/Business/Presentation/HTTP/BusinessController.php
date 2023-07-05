@@ -12,20 +12,30 @@ use Src\Agenda\User\Application\UseCases\Commands\UpdateUserCommand;
 use Src\Agenda\User\Application\UseCases\Queries\FindAllUsersQuery;
 use Src\Agenda\User\Application\UseCases\Queries\FindUserByIdQuery;
 use Src\Agenda\User\Domain\Model\ValueObjects\Password;
+use Src\Auth\Domain\AuthInterface;
 use Src\Common\Domain\Exceptions\UnauthorizedUserException;
 use Src\Common\Infrastructure\Laravel\Controller;
 use Symfony\Component\HttpFoundation\Response;
+use Tymon\JWTAuth\Contracts\Providers\JWT as ProvidersJWT;
 
 class BusinessController extends Controller
 {
+
+    private AuthInterface $auth;
+
+    public function __construct(AuthInterface $auth)
+    {
+        $this->auth = $auth;
+    }
+
+
     public function store(Request $request): JsonResponse
     {
 
         try {
-            $bussinessData = BusinessMapper::fromRequest($request, null, "wwww.img.com");
+            $bussinessData = BusinessMapper::fromRequest($request, null, "wwww.img.com", $this->auth->me()->id);
             return response()->json($bussinessData, 200);
-            $password = new Password($request->input('password'), $request->input('password_confirmation'));
-            $user = (new StoreUserCommand($userData, $password))->execute();
+            $business = (new StoreUserCommand($userData, $password))->execute();
             return response()->success($user->toArray(), Response::HTTP_CREATED);
         } catch (\DomainException $domainException) {
             return response()->error($domainException->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);

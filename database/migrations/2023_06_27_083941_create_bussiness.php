@@ -25,7 +25,9 @@ return new class extends Migration
             $table->string('street_2');
             $table->string('photo');
             $table->boolean('is_active');
+            $table->unsignedBigInteger('user_id');
 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('state_id')->references('id')->on('states')->onDelete('cascade');
             $table->timestamps();
         });

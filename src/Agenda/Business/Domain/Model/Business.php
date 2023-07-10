@@ -2,6 +2,7 @@
 
 namespace Src\Agenda\Business\Domain\Model;
 
+use Illuminate\Support\Collection;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Address;
 use Src\Agenda\Business\Domain\Model\ValueObjects\City;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Email;
@@ -31,7 +32,8 @@ class Business extends AggregateRoot implements \JsonSerializable
         public readonly Street2 $street2,
         public readonly Photo $photo,
         public readonly bool $isActive,
-        public readonly ?int $userId
+        public readonly ?int $userId,
+        public readonly ?Collection $photos,
     ) {}
 
     public function toArray(): array
@@ -50,6 +52,7 @@ class Business extends AggregateRoot implements \JsonSerializable
             'street2' => $this->street2,
             'photo' => $this->photo,
             'isActive' => $this->isActive,
+            'photos' => $this->photos
 
         ];
     }

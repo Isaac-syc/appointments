@@ -5,6 +5,7 @@ namespace Src\Agenda\Business\Application\Repositories\Eloquent;
 use Src\Agenda\Business\Application\Mappers\BusinessMapper;
 use Src\Agenda\Business\Domain\Model\Business;
 use Src\Agenda\Business\Domain\Repositories\BusinessRepositoryInterface;
+use Src\Agenda\Image\Infrastructure\EloquentModels\ImageEloquentModel;
 
 class BusinessRepository implements BusinessRepositoryInterface
 {
@@ -23,10 +24,20 @@ class BusinessRepository implements BusinessRepositoryInterface
     //     return UserMapper::fromEloquent($userEloquent);
     // }
 
-    public function store(Business $business): Business
+    public function store(Business $business, array $urls): Business
     {
+
+
         $businessEloquent = BusinessMapper::toEloquent($business);
         $businessEloquent->save();
+
+        foreach ($urls as $url) {
+            $image = new ImageEloquentModel();
+            $image->path = $url;
+            $businessEloquent->images()->save($image);
+        }
+
+
         return BusinessMapper::fromEloquent($businessEloquent);
     }
 

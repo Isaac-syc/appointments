@@ -5,8 +5,6 @@ namespace Src\Agenda\Business\Domain\Repositories;
 //use Src\Agenda\UserEloquentModel\Infrastructure\Repositories\UserDoesNotExistException;
 
 use Src\Agenda\Business\Domain\Model\Business;
-use Src\Agenda\User\Domain\Model\User;
-use Src\Agenda\User\Domain\Model\ValueObjects\Password;
 
 interface BusinessRepositoryInterface
 {
@@ -14,7 +12,7 @@ interface BusinessRepositoryInterface
 
     // public function findById(string $businessId): Business;
 
-    public function store(Business $business): Business;
+    public function store(Business $business, array $urls): Business;
 
     // public function update(Business $business): void;
 

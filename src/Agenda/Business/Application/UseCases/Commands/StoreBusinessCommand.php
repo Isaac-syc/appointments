@@ -12,6 +12,7 @@ class StoreBusinessCommand implements CommandInterface
 
     public function __construct(
         private readonly Business $business,
+        private readonly array $urls,
     )
     {
         $this->repository = app()->make(BusinessRepositoryInterface::class);
@@ -19,6 +20,6 @@ class StoreBusinessCommand implements CommandInterface
 
     public function execute(): Business
     {
-        return $this->repository->store($this->business);
+        return $this->repository->store($this->business, $this->urls);
     }
 }

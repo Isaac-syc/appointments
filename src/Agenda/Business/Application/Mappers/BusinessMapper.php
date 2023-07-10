@@ -17,6 +17,7 @@ use Src\Agenda\Business\Domain\Model\ValueObjects\StateId;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street1;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street2;
 use Src\Agenda\Business\Infrastructure\EloquentModels\BusinessEloquentModel;
+use Src\Agenda\Image\Infrastructure\EloquentModels\ImageEloquentModel;
 
 class BusinessMapper
 {
@@ -37,6 +38,7 @@ class BusinessMapper
             photo: new Photo($photoUrl),
             isActive: $request->boolean('isActive', true),
             userId: $userId,
+            photos: null,
         );
     }
 
@@ -57,6 +59,7 @@ class BusinessMapper
             photo: new Photo($businessEloquent->photo),
             isActive: $businessEloquent->is_active,
             userId: $businessEloquent->user_id,
+            photos: $businessEloquent->images,
         );
     }
 

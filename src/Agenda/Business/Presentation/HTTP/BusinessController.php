@@ -33,17 +33,24 @@ class BusinessController extends Controller
             $filename = Str::uuid() . '.' . $mime_type;
             Storage::disk('public_uploads')->put('/bussiness/' . $filename, File::get($request->photo));
             $url = env('APP_URL') . '/bussiness/' . $filename;
-
+            $urls = array();
             if ($request->has('photos')) {
-                return response()->json([
-                    "data" => [
-                        "business" => 'Llego'
-                    ]
-                ], 200);
+                $index = 0;
+
+                foreach ($request->photos as $photo) {
+
+                    $mime_type = $request->file('photos')[$index]->getClientOriginalExtension();
+                    $filename = Str::uuid() . '.' . $mime_type;
+                    Storage::disk('public_uploads')->put('/bussiness/' . $filename, File::get($photo));
+                    $urls[] = env('APP_URL') . '/bussiness/' . $filename;
+
+                    $index++;
+                }
+
             }
 
             $bussinessData = BusinessMapper::fromRequest($request, null, $url, $this->auth->me()->id);
-            $business = (new StoreBusinessCommand($bussinessData))->execute();
+            $business = (new StoreBusinessCommand($bussinessData, $urls))->execute();
             return response()->json([
                 "data" => [
                     "business" => $business->toArray()

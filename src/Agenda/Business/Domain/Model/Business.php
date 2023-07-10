@@ -13,7 +13,6 @@ use Src\Agenda\Business\Domain\Model\ValueObjects\Photo;
 use Src\Agenda\Business\Domain\Model\ValueObjects\StateId;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street1;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street2;
-use Src\Agenda\Business\Domain\Model\ValueObjects\UserId;
 use Src\Common\Domain\AggregateRoot;
 
 class Business extends AggregateRoot implements \JsonSerializable
@@ -26,19 +25,32 @@ class Business extends AggregateRoot implements \JsonSerializable
         public readonly Email $email,
         public readonly GoogleMapsUrl $googleMapsUrl,
         public readonly City $city,
-        public readonly StateId $stateId,
+        public readonly ?int $stateId,
         public readonly Neighborhood $neighborhood,
         public readonly Street1 $street1,
         public readonly Street2 $street2,
         public readonly Photo $photo,
         public readonly bool $isActive,
-        public readonly ?UserId $userId
+        public readonly ?int $userId
     ) {}
 
     public function toArray(): array
     {
         return [
-            // TODO Add properties
+            'id' => $this->id,
+            'name' => $this->name,
+            'phoneNumber' => $this->phoneNumber,
+            'address' => $this->address,
+            'email' => $this->email,
+            'googleMapsUrl' => $this->googleMapsUrl,
+            'city' => $this->city,
+            'stateId' => $this->stateId,
+            'neighborhood' => $this->neighborhood,
+            'street1' => $this->street1,
+            'street2' => $this->street2,
+            'photo' => $this->photo,
+            'isActive' => $this->isActive,
+
         ];
     }
 

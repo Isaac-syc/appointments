@@ -37,7 +37,6 @@ class UserController extends Controller
 
     public function store(Request $request): JsonResponse
     {
-        return"hola";
         try {
             $userData = UserMapper::fromRequest($request);
             $password = new Password($request->input('password'), $request->input('password_confirmation'));

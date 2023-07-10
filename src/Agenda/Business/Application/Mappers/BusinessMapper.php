@@ -16,7 +16,7 @@ use Src\Agenda\Business\Domain\Model\ValueObjects\Photo;
 use Src\Agenda\Business\Domain\Model\ValueObjects\StateId;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street1;
 use Src\Agenda\Business\Domain\Model\ValueObjects\Street2;
-use Src\Agenda\Business\Domain\Model\ValueObjects\UserId;
+use Src\Agenda\Business\Infrastructure\EloquentModels\BusinessEloquentModel;
 
 class BusinessMapper
 {
@@ -30,7 +30,7 @@ class BusinessMapper
             email: new Email($request->string('email')),
             googleMapsUrl: new GoogleMapsUrl($request->string('googleMapsUrl')),
             city: new City($request->string('city')),
-            stateId: new StateId($request->integer('stateId')),
+            stateId: $request->integer('stateId'),
             neighborhood: new Neighborhood($request->string('neighborhood')),
             street1: new Street1($request->string('street1')),
             street2: new Street2($request->string('street2')),
@@ -40,39 +40,46 @@ class BusinessMapper
         );
     }
 
-    public static function fromEloquent(UserEloquentModel $userEloquent): User
+    public static function fromEloquent(BusinessEloquentModel $businessEloquent): Business
     {
-        return new User(
-            id: $userEloquent->id,
-            name: new Name($userEloquent->name),
-            email: new Email($userEloquent->email),
-            last_name: new LastName($userEloquent->last_name),
-            type_users_id: new TypeUsersId($userEloquent->type_users_id)
+        return new Business(
+            id: $businessEloquent->id,
+            name: new Name($businessEloquent->name),
+            phoneNumber: new PhoneNumber($businessEloquent->phone_number),
+            address: new Address($businessEloquent->address),
+            email: new Email($businessEloquent->email),
+            googleMapsUrl: new GoogleMapsUrl($businessEloquent->google_maps_url),
+            city: new City($businessEloquent->city),
+            stateId: $businessEloquent->state_id,
+            neighborhood: new Neighborhood($businessEloquent->neighborhood),
+            street1: new Street1($businessEloquent->street_1),
+            street2: new Street2($businessEloquent->street_2),
+            photo: new Photo($businessEloquent->photo),
+            isActive: $businessEloquent->is_active,
+            userId: $businessEloquent->user_id,
         );
     }
 
-    public static function fromAuth(Authenticatable $userEloquent): User
-    {
-        return new User(
-            id: $userEloquent->id,
-            name: new Name($userEloquent->name),
-            email: new Email($userEloquent->email),
-            last_name: new LastName($userEloquent->last_name),
-            type_users_id: new TypeUsersId($userEloquent->type_users_id)
-        );
-    }
 
-    public static function toEloquent(User $user): UserEloquentModel
+    public static function toEloquent(Business $business): BusinessEloquentModel
     {
-        $userEloquent = new UserEloquentModel();
-        if ($user->id) {
-            $userEloquent = UserEloquentModel::query()->findOrFail($user->id);
+        $businessEloquent = new BusinessEloquentModel();
+        if ($business->id) {
+            $businessEloquent = BusinessEloquentModel::query()->findOrFail($business->id);
         }
-        $userEloquent->name = $user->name;
-        $userEloquent->email = $user->email;
-        $userEloquent->avatar = $user->avatar->filename;
-        $userEloquent->is_admin = $user->is_admin;
-        $userEloquent->is_active = $user->is_active;
-        return $userEloquent;
+        $businessEloquent->name = $business->name;
+        $businessEloquent->phone_number = $business->phoneNumber;
+        $businessEloquent->address = $business->address;
+        $businessEloquent->email = $business->email;
+        $businessEloquent->google_maps_url = $business->googleMapsUrl;
+        $businessEloquent->city = $business->city;
+        $businessEloquent->state_id = $business->stateId;
+        $businessEloquent->neighborhood = $business->neighborhood;
+        $businessEloquent->street_1 = $business->street1;
+        $businessEloquent->street_2 = $business->street2;
+        $businessEloquent->photo = $business->photo;
+        $businessEloquent->is_active = $business->isActive;
+        $businessEloquent->user_id = $business->userId;
+        return $businessEloquent;
     }
 }

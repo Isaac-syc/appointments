@@ -49,6 +49,19 @@ return [
             'root' => storage_path('app/avatars'),
         ],
 
+        'bussiness' => [
+            'driver' => 'local',
+            'visibility' => 'public',
+            'root' => storage_path('app/public/bussiness'),
+            'url' => env('APP_URL').'/storage',
+            'throw' => false,
+        ],
+
+        'public_uploads' => [
+            'driver' => 'local',
+            'root'   => public_path(),
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

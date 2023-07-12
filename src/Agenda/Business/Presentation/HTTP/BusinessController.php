@@ -12,7 +12,11 @@ use Src\Common\Infrastructure\Laravel\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Src\Agenda\Business\Application\UseCases\Commands\GetAllBusinessCommand;
+use Src\Agenda\Business\Application\UseCases\Commands\GetByIdBusinessCommand;
+use Src\Agenda\Business\Application\UseCases\Commands\UpdateBusinessCommand;
 
+use function PHPUnit\Framework\isNull;
 
 class BusinessController extends Controller
 {
@@ -24,10 +28,38 @@ class BusinessController extends Controller
         $this->auth = $auth;
     }
 
+    public function all(): JsonResponse
+    {
+        try {
+
+            $bussiness = (new GetAllBusinessCommand())->execute();
+            return response()->json([
+                "data" => [
+                    "bussiness" => $bussiness
+                ]
+            ], 200);
+        } catch (\DomainException $domainException) {
+            return response()->error($domainException->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function getById(int $id): JsonResponse
+    {
+        try {
+
+            $bussiness = (new GetByIdBusinessCommand($id))->execute();
+            return response()->json([
+                "data" => [
+                    "business" => $bussiness->toArray()
+                ]
+            ], 200);
+        } catch (\DomainException $domainException) {
+            return response()->error($domainException->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
 
     public function store(Request $request): JsonResponse
     {
-
         try {
             $mime_type = $request->file('photo')->getClientOriginalExtension();
             $filename = Str::uuid() . '.' . $mime_type;
@@ -56,6 +88,43 @@ class BusinessController extends Controller
                     "business" => $business->toArray()
                 ]
             ], 201);
+        } catch (\DomainException $domainException) {
+            return response()->error($domainException->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+
+    public function update(int $id, Request $request): JsonResponse
+    {
+        try {
+            $url = null;
+            if ($request->file('photo') !== null) {
+                $mime_type = $request->file('photo')->getClientOriginalExtension();
+                $filename = Str::uuid() . '.' . $mime_type;
+                Storage::disk('public_uploads')->put('/bussiness/' . $filename, File::get($request->photo));
+                $url = env('APP_URL') . '/bussiness/' . $filename;
+            }
+
+            $urls = array();
+            if ($request->has('photos')) {
+                $index = 0;
+                foreach ($request->photos as $photo) {
+                    $mime_type = $request->file('photos')[$index]->getClientOriginalExtension();
+                    $filename = Str::uuid() . '.' . $mime_type;
+                    Storage::disk('public_uploads')->put('/bussiness/' . $filename, File::get($photo));
+                    $urls[] = env('APP_URL') . '/bussiness/' . $filename;
+
+                    $index++;
+                }
+            }
+
+            $bussinessData = BusinessMapper::fromRequest($request, $id, $url, $this->auth->me()->id);
+            $business = (new UpdateBusinessCommand($bussinessData, $urls))->execute();
+            return response()->json([
+                "data" => [
+                    "business" => $business->toArray()
+                ]
+            ], 200);
         } catch (\DomainException $domainException) {
             return response()->error($domainException->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }

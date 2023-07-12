@@ -8,12 +8,12 @@ use Src\Agenda\Business\Domain\Model\Business;
 
 interface BusinessRepositoryInterface
 {
-    // public function findAll(): array;
+    public function getAll(): array;
 
-    // public function findById(string $businessId): Business;
+    public function getById(int $businessId): Business;
 
     public function store(Business $business, array $urls): Business;
 
-    // public function update(Business $business): void;
+    public function update(Business $business, array $urls): Business;
 
 }

@@ -56,8 +56,7 @@ class AuthController extends Controller
                 'email' => ['required', 'email', 'unique:users,email'],
                 'password' => ['required', 'string'],
                 'name' => ['required'],
-                'last_name', ['requited'],
-                'type_users_id' => ['required'],
+                'last_name', ['requited']
             ]);
 
             if ($validator->fails()) {
@@ -126,7 +125,8 @@ class AuthController extends Controller
                     'accessToken' => $token,
                     'token_type' => 'bearer',
                     'expires_in' => config('jwt.ttl') * 1,
-                ]
+                ],
+                'user' => $this->auth->me()->toArray()
             ]
         ]);
     }

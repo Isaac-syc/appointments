@@ -19,7 +19,7 @@ class User extends AggregateRoot
         public readonly Name $name,
         public readonly Email $email,
         public readonly LastName $last_name,
-        public readonly TypeUsersId $type_users_id,
+        public readonly ?int $type_users_id,
     ) {}
 
     public function toArray(): array

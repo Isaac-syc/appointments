@@ -34,7 +34,6 @@ class UserEloquentModel extends Authenticatable implements JWTSubject
         'last_name' => 'required',
         'password' => 'confirmed|min:8|nullable',
         'firebase_id' => 'required',
-        'type_users_id' => 'required'
     ];
 
     /**

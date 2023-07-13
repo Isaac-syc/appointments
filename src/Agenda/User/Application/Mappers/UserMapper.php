@@ -33,7 +33,7 @@ class UserMapper
             name: new Name($userEloquent->name),
             email: new Email($userEloquent->email),
             last_name: new LastName($userEloquent->last_name),
-            type_users_id: new TypeUsersId($userEloquent->type_users_id)
+            type_users_id: $userEloquent->type_users_id
         );
     }
 
@@ -44,7 +44,7 @@ class UserMapper
             name: new Name($userEloquent->name),
             email: new Email($userEloquent->email),
             last_name: new LastName($userEloquent->last_name),
-            type_users_id: new TypeUsersId($userEloquent->type_users_id)
+            type_users_id: $userEloquent->type_users_id
         );
     }
 

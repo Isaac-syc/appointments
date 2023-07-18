@@ -8,7 +8,9 @@ Route::group([
 ], function () {
     Route::get('/', [BusinessController::class, 'all']);
     Route::post('/', [BusinessController::class, 'store']);
-    Route::post('/{id}', [BusinessController::class, 'update']);
+    Route::post('/update/{id}', [BusinessController::class, 'update']);
     Route::get('/{id}', [BusinessController::class, 'getById']);
 
+    Route::post('/working-hour', [BusinessController::class, 'createWorkingHour']);
+    Route::post('/working-hour/{id}/{day}', [BusinessController::class, 'deleteWorkingHour']);
 });

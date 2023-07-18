@@ -12,8 +12,10 @@ use Src\Common\Infrastructure\Laravel\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Src\Agenda\Business\Application\UseCases\Commands\DeleteWorkingHourBusinessCommand;
 use Src\Agenda\Business\Application\UseCases\Commands\GetAllBusinessCommand;
 use Src\Agenda\Business\Application\UseCases\Commands\GetByIdBusinessCommand;
+use Src\Agenda\Business\Application\UseCases\Commands\StoreWorkingHourBusinessCommand;
 use Src\Agenda\Business\Application\UseCases\Commands\UpdateBusinessCommand;
 
 use function PHPUnit\Framework\isNull;
@@ -125,6 +127,37 @@ class BusinessController extends Controller
                     "business" => $business->toArray()
                 ]
             ], 200);
+        } catch (\DomainException $domainException) {
+            return response()->error($domainException->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+
+    public function createWorkingHour(Request $request): JsonResponse
+    {
+        try {
+
+            (new StoreWorkingHourBusinessCommand($request))->execute();
+            return response()->json([
+                "data" => [
+                    "message" => "created"
+                ]
+            ], 201);
+        } catch (\DomainException $domainException) {
+            return response()->error($domainException->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+    }
+
+    public function deleteWorkingHour(int $id, string $day): JsonResponse
+    {
+        try {
+
+            (new DeleteWorkingHourBusinessCommand($id, $day))->execute();
+            return response()->json([
+                "data" => [
+                    "message" => "deleted"
+                ]
+            ], 201);
         } catch (\DomainException $domainException) {
             return response()->error($domainException->getMessage(), Response::HTTP_UNPROCESSABLE_ENTITY);
         }

@@ -11,13 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('working_hours', function (Blueprint $table) {
-            $table->enum('day', ['lunes', 'martes', 'miércoles', 'jueves', 'viernes', 'sábado', 'domingo']);
-            $table->time('start_time');
-            $table->time('finish_time');
+        Schema::create('services', function (Blueprint $table) {
+            $table->id();
+            $table->string("name")->nullable();
+            $table->unsignedDecimal("price");
+            $table->string("description")->nullable();
+            $table->time("time_stimate");
+            $table->string("photo");
+            $table->boolean("is_active");
             $table->unsignedBigInteger('bussiness_id');
             $table->foreign('bussiness_id')->references('id')->on('bussiness')->onDelete('cascade');
-            $table->primary(['day', 'bussiness_id']);
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('working_hours');
+        Schema::dropIfExists('services');
     }
 };

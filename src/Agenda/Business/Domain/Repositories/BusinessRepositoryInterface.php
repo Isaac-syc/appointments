@@ -4,6 +4,7 @@ namespace Src\Agenda\Business\Domain\Repositories;
 
 //use Src\Agenda\UserEloquentModel\Infrastructure\Repositories\UserDoesNotExistException;
 
+use Illuminate\Http\Request;
 use Src\Agenda\Business\Domain\Model\Business;
 
 interface BusinessRepositoryInterface
@@ -15,5 +16,9 @@ interface BusinessRepositoryInterface
     public function store(Business $business, array $urls): Business;
 
     public function update(Business $business, array $urls): Business;
+
+    public function storeWorkingHour(Request $request): void;
+
+    public function deleteWorkingHour(int $id, string $day): void;
 
 }

@@ -63,11 +63,22 @@ class BusinessController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            $mime_type = $request->file('photo')->getClientOriginalExtension();
-            $filename = Str::uuid() . '.' . $mime_type;
-            Storage::disk('public_uploads')->put('/bussiness/' . $filename, File::get($request->photo));
-            $url = env('APP_URL') . '/bussiness/' . $filename;
+            return response()->json([
+                "data" => [
+                    "business" => "llega"
+                ]
+            ], 201);
+            $url = null;
             $urls = array();
+
+            if ($request->has('photo')) {
+                $mime_type = $request->file('photo')->getClientOriginalExtension();
+                $filename = Str::uuid() . '.' . $mime_type;
+                Storage::disk('public_uploads')->put('/bussiness/' . $filename, File::get($request->photo));
+                $url = env('APP_URL') . '/bussiness/' . $filename;
+            }
+
+
             if ($request->has('photos')) {
                 $index = 0;
 
@@ -80,7 +91,6 @@ class BusinessController extends Controller
 
                     $index++;
                 }
-
             }
 
             $bussinessData = BusinessMapper::fromRequest($request, null, $url, $this->auth->me()->id);

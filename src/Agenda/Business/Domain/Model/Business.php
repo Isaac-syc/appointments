@@ -34,6 +34,7 @@ class Business extends AggregateRoot implements \JsonSerializable
         public readonly bool $isActive,
         public readonly ?int $userId,
         public readonly ?Collection $photos,
+        public readonly ?Collection $services,
     ) {}
 
     public function toArray(): array
@@ -52,7 +53,8 @@ class Business extends AggregateRoot implements \JsonSerializable
             'street2' => $this->street2,
             'photo' => $this->photo,
             'isActive' => $this->isActive,
-            'photos' => $this->photos
+            'photos' => $this->photos,
+            'services' => $this->services
 
         ];
     }

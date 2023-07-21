@@ -26,7 +26,7 @@ class BusinessRepository implements BusinessRepositoryInterface
     public function getById(int $businessId): Business
     {
         $businessEloquent = BusinessEloquentModel::query()->findOrFail($businessId);
-        return BusinessMapper::fromEloquent($businessEloquent);
+        return BusinessMapper::fromEloquentWithServices($businessEloquent);
     }
 
     public function store(Business $business, array $urls): Business

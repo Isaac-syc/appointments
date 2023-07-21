@@ -39,6 +39,7 @@ class BusinessMapper
             isActive: $request->boolean('isActive', true),
             userId: $userId,
             photos: null,
+            services: null,
         );
     }
 
@@ -60,9 +61,31 @@ class BusinessMapper
             isActive: $businessEloquent->is_active,
             userId: $businessEloquent->user_id,
             photos: $businessEloquent->images,
+            services: null,
         );
     }
 
+    public static function fromEloquentWithServices(BusinessEloquentModel $businessEloquent): Business
+    {
+        return new Business(
+            id: $businessEloquent->id,
+            name: new Name($businessEloquent->name),
+            phoneNumber: new PhoneNumber($businessEloquent->phone_number),
+            address: new Address($businessEloquent->address),
+            email: new Email($businessEloquent->email),
+            googleMapsUrl: new GoogleMapsUrl($businessEloquent->google_maps_url),
+            city: new City($businessEloquent->city),
+            stateId: $businessEloquent->state_id,
+            neighborhood: new Neighborhood($businessEloquent->neighborhood),
+            street1: new Street1($businessEloquent->street_1),
+            street2: new Street2($businessEloquent->street_2),
+            photo: new Photo($businessEloquent->photo),
+            isActive: $businessEloquent->is_active,
+            userId: $businessEloquent->user_id,
+            photos: $businessEloquent->images,
+            services: $businessEloquent->services,
+        );
+    }
 
     public static function toEloquent(Business $business): BusinessEloquentModel
     {

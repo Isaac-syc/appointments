@@ -63,11 +63,6 @@ class BusinessController extends Controller
     public function store(Request $request): JsonResponse
     {
         try {
-            return response()->json([
-                "data" => [
-                    "business" => "llega"
-                ]
-            ], 201);
             $url = null;
             $urls = array();
 

@@ -31,8 +31,6 @@ class BusinessRepository implements BusinessRepositoryInterface
 
     public function store(Business $business, array $urls): Business
     {
-
-
         $businessEloquent = BusinessMapper::toEloquent($business);
         $businessEloquent->save();
 

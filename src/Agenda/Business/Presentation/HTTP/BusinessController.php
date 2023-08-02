@@ -88,7 +88,7 @@ class BusinessController extends Controller
                 }
             }
 
-            $bussinessData = BusinessMapper::fromRequest($request, null, $url, $this->auth->me()->id);
+            $bussinessData = BusinessMapper::fromRequest($request, null, $url, $request->user_id);
             $business = (new StoreBusinessCommand($bussinessData, $urls))->execute();
             return response()->json([
                 "data" => [

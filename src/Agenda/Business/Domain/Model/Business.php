@@ -30,7 +30,7 @@ class Business extends AggregateRoot implements \JsonSerializable
         public readonly Neighborhood $neighborhood,
         public readonly Street1 $street1,
         public readonly Street2 $street2,
-        public readonly Photo $photo,
+        public readonly ?Photo $photo,
         public readonly bool $isActive,
         public readonly ?int $userId,
         public readonly ?Collection $photos,

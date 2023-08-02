@@ -35,7 +35,7 @@ class BusinessMapper
             neighborhood: new Neighborhood($request->string('neighborhood')),
             street1: new Street1($request->string('street1')),
             street2: new Street2($request->string('street2')),
-            photo: new Photo($photoUrl),
+            photo: $photoUrl ? new Photo($photoUrl) : null,
             isActive: $request->boolean('isActive', true),
             userId: $userId,
             photos: null,
@@ -103,7 +103,7 @@ class BusinessMapper
         $businessEloquent->neighborhood = $business->neighborhood;
         $businessEloquent->street_1 = $business->street1;
         $businessEloquent->street_2 = $business->street2;
-        $businessEloquent->photo = $business->photo;
+        $businessEloquent->photo = $business->photo ? $business->photo : "null";
         $businessEloquent->is_active = $business->isActive;
         $businessEloquent->user_id = $business->userId;
         return $businessEloquent;
